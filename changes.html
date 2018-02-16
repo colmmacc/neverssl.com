@@ -1,0 +1,156 @@
+<html>
+    <head>
+        <title>NeverSSL - improvements coming soon</title>
+
+        <style>
+        body {
+             font-family: Montserrat, helvetica, arial, sans-serif; 
+             font-size: 16x;
+             color: #444444;
+             margin: 0;
+        }
+        h2 {
+            font-weight: 700;
+            font-size: 1.6em;
+            margin-top: 30px;
+        }
+        p {
+            line-height: 1.6em;
+        }
+        .container {
+            max-width: 650px;
+            margin: 20px auto 20px auto;
+            padding-left: 15px;
+            padding-right: 15px
+        }
+        .header {
+            background-color: #42C0FD;
+            color: #FFFFFF;
+            padding: 10px 0 10px 0;
+            font-size: 2.2em;
+        }
+        <!-- CSS from Mark Webster https://gist.github.com/markcwebster/9bdf30655cdd5279bad13993ac87c85d -->
+        </style>
+    </head>
+    <body>
+
+    <div class="header">
+        <div class="container">
+        <h1>NeverSSL</h1>
+        </div>
+    </div>
+    
+    <div class="content">
+    <div class="container">
+
+    <h2>Beta version</h2>
+
+    <p>TLDR: neverssl.com is improving, but you'll barely notice the change except that it 
+    should work in more cases. You can try the beta version right now by going to <a
+    href="http://neverssl.com/v2">http://neverssl.com/v2</a>.</p>
+
+    <h2>Improvements coming soon to NeverSSL</h2>
+
+    <p>NeverSSL.com started as a quick and simple fix for a personal nuisance; 
+    getting online at the airport, on planes, in hotels, and at caf&eacute;s
+    had been getting harder because broken "Wifi capture" networks don't work
+    well with HTTPS, and the web is finally moving to HTTPS by default.</p>
+
+    <blockquote class="twitter-tweet"><p lang="en" dir="ltr">After using wifi in 3 airports and 4 planes this weekend, I&#39;ve created <a href="https://t.co/D2lIJuCQvr">https://t.co/D2lIJuCQvr</a> to make logging on a little bit easier.</p>&mdash; Colm MacCárthaigh (@colmmacc) <a href="https://twitter.com/colmmacc/status/790598606000533504?ref_src=twsrc%5Etfw">October 24, 2016</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+    <p>It took about 30 minutes to set up neverssl.com, it's just a simple
+    website hosted on AWS (disclaimer: I work at AWS) and a stylesheet designed by 
+    <a href="https://twitter.com/markcwebster">Mark Webster</a>. The landing
+    page is kept very small and simple, no ads, no animations, it just
+    gets you online.</p>
+
+    <p>In the time since NeverSSL launched, it's been featured by several news
+    sites, technical tip columns, and lots of word-of-mouth
+    recommendations. As a result, it's now grown to about 6 million hits per
+    day, and that's just the traffic that makes it through to the landing 
+    page, presumably more traffic is being intercepted by the capture portals.
+    It's pretty rewarding to see 30 minutes of effort pay off by saving so
+    many people some time and frustration.</p>
+
+    <p>As with any unpexected success, it's important to double down. While
+    NeverSSL.com is simple, over the past 18 months I've encountered a few
+    edge cases where NeverSSL.com didn't work. If I can hit them on my own,
+    then they probably impact thousands of people, and some improvements are 
+    due!</p>
+
+    <h2>What's changing?</h2>
+
+    <p>Firstly, what isn't changing is that NeverSSL.com will continue to be a
+    free, fast, and tiny website. Still no animations, or distractions.</p> 
+    
+    <p>I also want to keep neverssl.com ad free, but as it's now
+    costing me about $2,000 a year to host it, I may add an single fixed
+    unobtrusive logo and link, if I can find a suitable sponsor, to recoup the
+    hosting costs.</p>
+
+    <p>If you've got a better idea, feel free to let me know via the 
+    next change: NeverSSL now has a <a href="https://twitter.com/NeverSSL/">twitter account</a>.
+    I'll also be embeding a link to the NeverSSL twitter account on
+    the new landing page. Hopefully this can serve as a useful feedback
+    channel, as it's been too hard for users to reach out and make
+    suggestions or complaints.</p>
+
+    <p>I'm also publishing the Git repo I use to manage NeverSSL, so
+    if you want a sneak preview of other changes I make, or you 
+    want to submit improvements or issues, you can do both at
+    <a href="https://github.com/colmmacc/neverssl.com">https://github.com/colmmacc/neverssl.com</a>.
+
+    <h2>Enhanced Cache-busting</h2>
+
+    <p>Today NeverSSL.com has a single landing page, and while caching is
+    aggressively disabled for that page, users can still run into caching
+    problems that prevent them from getting online.</p>
+
+    <p>One problem is that when some browsers 'detect' that they
+    are not online, they fall back to a stale in-browser cache and simply
+    display the page without trying to make a request. This fails to 
+    trigger the Wifi's captive portal.</p>
+
+    <p>Another problem is that some Wifi capture networks can be
+    over-zealous with spoofing DNS [<a href="#dnssec">*</a>]. These networks
+    typically rewrite DNS responses to resolve to the private IP address of the
+    capture portal, but they can use TTLs that are too big. If your device
+    tries to connect to a few networks in rapid succession, it can end up with
+    the bad DNS entries from a network it is no longer connected to, and leaves
+    you unable to get online.</p>
+
+    <p>To fix these problems, NeverSSL.com is moving to a two page model.
+    The first page will be very very small, it's just loading some javascript,
+    and it doesn't matter if your browser caches it. Actually it's good if
+    your browser caches it.</p>
+
+    <p>What this page will do is generate a url that looks like:</p>
+
+    <p><strong>http://lxzmwvtdsnrhkfbc.neverssl.com/online/</strong></p> 
+    
+    <p>and redirect your browser there. The part before the dot is random data, 
+    and there are billions of trillions of possibilities. That makes each redirect
+    unique, and each DNS lookup uncacheable, so it gets through very broken DNS setups
+    I don't like that it makes the final browser url a bit ugly, but C'est La Vie.</p>
+
+    <a name="dnssec"/>
+    <h3>Gratuitous Footnote on DNSSEC</h3>
+    
+    <p>Whenever I bring up DNS spoofing, people often wish that DNSSEC were
+    more widely deployed to prevent it. In fact, DNSSEC wouldn't help in this
+    case, or in almost any real world attack case. DNSSEC does nothing to
+    protect you from your DNS resolver (the wifi capture network, in this
+    case), or from other users on your network. Nor does it provide privacy, or
+    protection against domains being blocked. From someone who has both worked
+    on cryptography, and written DNS implementations: don't use DNSSEC, it's
+    silly.</p>
+
+    <p>- Colm MacC&aacute;rthaigh</p>
+
+    <a href="https://twitter.com/neverssl?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @neverssl</a><script async src="https://    platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    </div>
+    </div>
+    
+    </body>
+</html>
