@@ -133,6 +133,27 @@
     unique, and each DNS lookup uncacheable, so it gets through very broken DNS setups
     I don't like that it makes the final browser url a bit ugly, but C'est La Vie.</p>
 
+    
+    <h2>NeverSSL data aggregation</h2>
+
+    <p>Since broken captive networks are a real nuisance, another change I am 
+    planning is to use neverssl.com to collate aggregated data on where 
+    the most broken networks are.</p>
+
+    <p>To do this, I'm planning to add a small amount of state tracking (via
+    cookies) to the first landing page. I'm still experimenting, but I
+    hope that it will be possible to identify cases where the wifi capture
+    was triggered and to subsequently record these measurements to a logging
+    service.</p>
+
+    <p>My goal is to publish a monthly list of the most broken networks
+    to the NANOG mailing list. I'm hopeful that this data will assist network
+    operators, consultatnts and others in helping to convince network owners
+    to fix their networks.</p>
+
+    <p>All IP address data will be anonimized to at least the /24 (for IPv4) 
+    or /64 level (for IPv6).</p>
+
     <a name="dnssec"/>
     <h3>Gratuitous Footnote on DNSSEC</h3>
     
