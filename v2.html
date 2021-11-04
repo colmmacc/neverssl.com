@@ -4,7 +4,7 @@
 
         <style>
         body {
-             font-family: Montserrat, helvetica, arial, sans-serif; 
+             font-family: Montserrat, helvetica, arial, sans-serif;
              font-size: 16x;
              color: #444444;
              margin: 0;
@@ -51,11 +51,28 @@
         </style>
 
         <script>
-            var prefix = 'bcdfhklmnrstvwxz';
-            
-            prefix = prefix.split('').sort(function(){return 0.5-Math.random()}).join('')
+            var adjectives = [ 'cool' , 'calm' , 'relaxed', 'soothing', 'serene', 'slow',
+                               'beautiful', 'wonderful', 'wonderous', 'fun', 'good',
+                               'glowing', 'inner', 'grand', 'majestic', 'astounding',
+                               'fine', 'splendid', 'transcendent', 'sublime', 'whole',
+                               'unique', 'old', 'young', 'fresh', 'clear', 'shiny',
+                               'shining', 'lush', 'quiet', 'bright', 'sіlver' ];
 
-            window.location.href = 'http://' + prefix + '.neverssl.com/online'; 
+            var nouns =      [ 'day', 'dawn', 'peace', 'smile', 'love', 'zen', 'laugh',
+                               'yawn', 'poem', 'song', 'joke', 'verse', 'kiss', 'sunrise',
+                               'sunset', 'eclipse', 'moon', 'rainbow', 'rain', 'plan',
+                               'play', 'chart', 'children', 'stars', 'path', 'secret',
+                               'treasure', 'melody', 'magic', 'spell', 'light', 'morning'];
+
+            var prefix =
+                    // Choose 3 zen adjectives
+                    adjectives.sort(function(){return 0.5-Math.random()}).slice(-3).join('')
+
+                    +
+                    // Coupled with a zen noun
+                    nouns.sort(function(){return 0.5-Math.random()}).slice(-1).join('');
+
+            window.location.href = 'http://' + prefix + '.neverssl.com/online';
         </script>
     </head>
     <body>
@@ -71,7 +88,6 @@
         <h1>NeverSSL</h1>
         </div>
     </div>
-    
     <div class="content">
     <div class="container">
 
@@ -89,20 +105,20 @@
         encryption, no strong authentication, no <a
         href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">HSTS</a>,
         no HTTP/2.0, just plain old unencrypted HTTP and forever stuck in the dark
-        ages of internet security.</p> 
+        ages of internet security.</p>
 
         <h2>Why?</h2>
         <p>Normally, that's a bad idea. You should always use SSL and secure
         encryption when possible. In fact, it's such a bad idea that most websites
         are now using https by default.</p>
-        
+
         <p>And that's great, but it also means that if you're relying on
         poorly-behaved wifi networks, it can be hard to get online.  Secure
         browsers and websites using https make it impossible for those wifi
         networks to send you to a login or payment page. Basically, those networks
         can't tap into your connection just like attackers can't. Modern browsers
         are so good that they can remember when a website supports encryption and
-        even if you type in the website name, they'll use https.</p> 
+        even if you type in the website name, they'll use https.</p>
 
         <p>And if the network never redirects you to this page, well as you can
         see, you're not missing much.</p>
@@ -113,6 +129,6 @@
 
     </div>
     </div>
-    
+
     </body>
 </html>
